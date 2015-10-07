@@ -1,29 +1,15 @@
-## hiera_http : a HTTP back end for Hiera
+## lookup_http
 
 
 ### Description
 
-This is a back end plugin for Hiera that allows lookup to be sourced from HTTP queries.  The intent is to make this backend adaptable to allow you to query any data stored in systems with a RESTful API such as CouchDB or even a custom store with a web front-end
+This is a library intended to be used by data lookup tools and allows lookup to be sourced from HTTP queries.  The intent is to make this backend adaptable to allow you to query any data stored in systems with a RESTful API such as CouchDB or even a custom store with a web front-end
 
-### Configuration
+### History
 
-The following is an example hiera.yaml configuration for use with hiera-http
+Most of this code was previously incorporated inside hiera-http, we decided to split off the HTTP functionality into a standalone library - the main intention for this was to be able to write a HTTP data source for [Jerakia](http://github.com/crayfishx/jerakia) without re-inventing the wheel.
 
-    :backends:
-      - http
-
-    :http:
-      :host: 127.0.0.1
-      :port: 5984
-      :output: json
-      :cache_timeout: 10
-      :failure: graceful
-      :headers:
-        :X-Token: my-token
-      :paths:
-        - /configuration/%{fqdn}
-        - /configuration/%{env}
-        - /configuration/common
+### Usage
 
 
 The following are optional configuration parameters
@@ -34,15 +20,6 @@ The following are optional configuration parameters
 
 `:http_read_timeout: ` : Timeout in seconds for waiting for a HTTP response (default 10)
 
-`:cache_timeout: ` : Timeout in seconds for HTTP requests to a same path (default 10), set to 0 to disable the cache
-
-`:cache_clean_interval: ` : Interval (in secs) to clean the cache (default 3600), set to 0 to disable cache cleaning
-
-`:confine_to_keys: ` : Only use this backend if the key matches one of the regexes in the array
-
-      :confine_to_keys:
-        - "application.*"
-        - "apache::.*"
 
 `:failure: ` : When set to `graceful` will stop hiera-http from throwing an exception in the event of a connection error, timeout or invalid HTTP response and move on.  Without this option set hiera-http will throw an exception in such circumstances
 
@@ -95,6 +72,14 @@ Theres a few things still on my list that I'm going to be adding, including
 
 
 ### Change Log
+
+#### 1.0.0
+* Released as independant library
+
+
+## Historical Change Log (hiera-http)
+
+The following changelog applied to the hiera-http 1.x series, before it was ported to lookup-http
 
 #### 1.4.0
 
