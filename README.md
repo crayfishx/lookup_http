@@ -11,8 +11,11 @@ Most of this code was previously incorporated inside hiera-http, we decided to s
 
 ### Usage
 
+    lookup = LookupHttp.new(opts)
+    result = lookup.get_parsed(path)
 
-The following are optional configuration parameters
+
+The following are configuration parameters that can be passed to `LookupHttp.new`
 
 `:output: ` : Specify what handler to use for the output of the request.  Currently supported outputs are plain, which will just return the whole document, or YAML and JSON which parse the data and try to look up the key
 
@@ -24,11 +27,6 @@ The following are optional configuration parameters
 `:failure: ` : When set to `graceful` will stop hiera-http from throwing an exception in the event of a connection error, timeout or invalid HTTP response and move on.  Without this option set hiera-http will throw an exception in such circumstances
 
 `:ignore_404: ` : If `failure` is _not_ set to `graceful` then any error code received from the HTTP response will throw an exception.  This option makes 404 responses exempt from exceptions.  This is useful if you expect to get 404's for data items not in a certain part of the hierarchy and need to fall back to the next level in the hierarchy, but you still want to bomb out on other errors.
-
-The `:paths:` parameter can also parse the lookup key, eg:
-
-    :paths:
-      /configuration.php?lookup=%{key}
 
 `:use_ssl:`: When set to true, enable SSL (default: false)
 
