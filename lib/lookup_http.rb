@@ -53,7 +53,6 @@ class LookupHttp
   # and return its structured representation.  Currently we support YAML and JSON
   #
   def parse_json(answer)
-    require 'rubygems'
     require 'json'
     JSON.parse(answer)
   end
