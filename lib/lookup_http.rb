@@ -1,5 +1,8 @@
 class LookupHttp
 
+  class LookupError < Error
+  end
+
   def initialize(opts={})
     require 'net/http'
     require 'net/https'
@@ -79,8 +82,7 @@ class LookupHttp
     begin
       httpres = @http.request(httpreq)
     rescue Exception => e
-      Hiera.warn("[lookup_http]: Net::HTTP threw exception #{e.message}")
-      raise Exception, e.message unless @config[:failure] == 'graceful'
+      raise LookupHttp::LookupError, e.message unless @config[:failure] == 'graceful'
       return
     end
 
@@ -88,7 +90,7 @@ class LookupHttp
       log_debug("[lookup_http]: bad http response from #{@config[:host]}:#{@config[:port]}#{path}")
       log_debug("HTTP response code was #{httpres.code}")
       unless httpres.code == '404' && @config[:ignore_404]
-        raise Exception, 'Bad HTTP response' unless @config[:failure] == 'graceful'
+        raise LookupHttp::LookupError, 'Bad HTTP response' unless @config[:failure] == 'graceful'
       end
       return
     end
