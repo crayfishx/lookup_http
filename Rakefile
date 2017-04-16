@@ -3,7 +3,7 @@ require 'rubygems/package_task'
 
 spec = Gem::Specification.new do |gem|
     gem.name = "lookup_http"
-    gem.version = "1.0.1"
+    gem.version = "1.0.2"
     gem.summary = "HTTP library for data lookup tools"
     gem.email = "craig@craigdunn.org"
     gem.author = "Craig Dunn"

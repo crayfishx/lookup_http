@@ -1,6 +1,6 @@
 class LookupHttp
 
-  class LookupError < Error
+  class LookupError < RuntimeError
   end
 
   def initialize(opts={})
